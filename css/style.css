@@ -4,6 +4,23 @@
     box-sizing: 0;
 }
 
-body {
+header {
+    padding-top: 15px;
+    padding-bottom: 20px;
+    background-color: darkgoldenrod;
+    color: ivory;
+}
+h1 {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+main {
     background-color: lightgoldenrodyellow;
+    display: flex;
+    justify-content: center;
+}
+main img {
+    max-width: 80vw;
+    max-height: 95vh;
 }
