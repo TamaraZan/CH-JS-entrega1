@@ -1,8 +1,6 @@
-//quiero hacer piedra, papel, tijeras, lagarto, spock
-
-//podría poner const JUGADAS_VALIDAS = 3; para poner una constante en el proyecto (y reemplazo el 3 multiplicando)
+//podría poner const JUGADAS_VALIDAS = 5; para poner una constante en el proyecto (y reemplazo el 5 multiplicando)
 function generarJugada () {
-    let jugadaEnNumero = Math.ceil(Math.random()*3);
+    let jugadaEnNumero = Math.floor(Math.random()*5) + 1;
     switch (jugadaEnNumero) {
         case 1: 
             return "piedra";
@@ -10,17 +8,21 @@ function generarJugada () {
             return "papel";
         case 3:
             return "tijeras";
+        case 4:
+            return "lagarto";
+        case 5: 
+            return "spock";
     }
 }
-function recibirJugadaUsuario () {
+function recibirJugada () {
     let jugada = "";
     let valida = false;
     while (!valida) {
-        jugada = prompt("Elegí piedra, papel o tijeras").toLowerCase();
+        jugada = prompt("Elegí piedra, papel, tijeras, lagarto o Spock").toLowerCase();
         if (jugada=="tijera") {
             jugada="tijeras";
         }
-        valida = jugada=="piedra" || jugada=="papel" || jugada=="tijeras";
+        valida = jugada=="piedra" || jugada=="papel" || jugada=="tijeras" || jugada=="lagarto" || jugada=="spock";
         if(!valida) {
             alert("ERROR: jugada inválida, ingresa otra jugada.");
         }
@@ -37,9 +39,12 @@ function resultado (jugadaPC , jugadaUsuario) {
     if (jugadaPC == jugadaUsuario) {
         return "Empate";
     } 
-    let usuarioGano = (jugadaPC=="piedra" && jugadaUsuario=="papel") ||
-                      (jugadaPC=="papel" && jugadaUsuario=="tijeras") ||
-                      (jugadaPC=="tijeras" && jugadaUsuario=="piedra");
+    //también se puede usar switch(o un if) adentro de un switch... me parece más claro como está
+    let usuarioGano = (jugadaPC=="piedra"   && (jugadaUsuario=="papel"   || jugadaUsuario=="spock")) ||
+                      (jugadaPC=="papel"    && (jugadaUsuario=="tijeras" || jugadaUsuario=="lagarto")) ||
+                      (jugadaPC=="tijeras"  && (jugadaUsuario=="spock"   || jugadaUsuario=="piedra")) ||
+                      (jugadaPC=="lagarto"  && (jugadaUsuario=="piedra"  || jugadaUsuario=="tijeras")) ||
+                      (jugadaPC=="spock"    && (jugadaUsuario=="lagarto" || jugadaUsuario=="papel"));
     if (usuarioGano) {
         cantVictorias++;
         victoriasConsecutivas++;
@@ -55,14 +60,14 @@ function ronda () {
     let res = "";
     do {
         let jugadaPC = generarJugada();
-        let jugadaUsuario = recibirJugadaUsuario();
+        let jugadaUsuario = recibirJugada();
         // SOLO para tests: (comentar linea de arriba)(y el alert mas abajo para partidas largas)
         // let jugadaUsuario = generarJugada();
         res = resultado(jugadaPC, jugadaUsuario);
         alert(res);
         console.log(nombreUsuario + " jugó " + jugadaUsuario + ".");
         console.log("PC jugó " + jugadaPC + ".");
-        console.log("RESULTADO: " + res + ".")
+        console.log("RESULTADO: " + res)
         console.log("--------------------------------------------")
     } while (res == "Empate")
 }
@@ -71,7 +76,7 @@ function ronda () {
 
 
 
-alert("Bienvenidos a piedra, papel o tijeras");
+alert("Bienvenidos a piedra, papel, tijeras, lagarto, Spock");
 //son const pero no son realmente constantes, no tiene mucho sentido ponerlas en mayusculas(creo)
 const nombreUsuario = prompt("Ingresá tu nombre:");
 const cantRondas = Number(prompt("¿Cuantas rondas querés jugar?"));
@@ -100,7 +105,7 @@ if (porcentajeExito > 75) {
     console.log("     ... ya casi te ganaba...")
 } else if (porcentajeExito > 25) {
     console.log("     ... jeje, ¡recién estaba empezando!")
-} else {
+} else if (cantRondas != 0) {
     console.log("     ... pffft... no, no... no estuvo tan mal... pffffft...")
 }
 
